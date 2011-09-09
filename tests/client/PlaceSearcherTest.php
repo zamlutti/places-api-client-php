@@ -50,6 +50,17 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
         $this->assertEquals('places-retrieved', $placesRetrieved);
     }
 
+    public function testSearchByRadiusWithStartIndex(){
+        $placesRetrieved = $this->placeSearcher->byRadius($this->radius,
+                                  $this->latitude,
+                                  $this->longitude,
+                                  '',
+                                  '',
+                                  10);
+
+        $this->assertEquals('places-retrieved', $placesRetrieved);
+    }
+
     public function testThatSearchByRadiusCallPlaceRequest() {
         $expected = '/places/byradius?radius=0.50&latitude=-23.45&longitude=-46.78';
 
@@ -88,4 +99,21 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
                                        '',
                                        'pizzaria');
     }
+
+    public function testThatSearchByRadiusWithStartIndexCallPlaceRequestWithStartIndex() {
+        $expected = '/places/byradius?radius=0.50&latitude=-23.45&longitude=-46.78&start=10';
+
+        $this->clientMocked->expects($this->once())
+                       ->method('request')
+                       ->with($this->equalTo($expected));
+
+        $this->placeSearcher->byRadius($this->radius,
+                                       $this->latitude,
+                                       $this->longitude,
+                                       '',
+                                       '',
+                                       10);
+    }
+
+
 }

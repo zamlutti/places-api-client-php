@@ -22,6 +22,10 @@ class PlaceSearcher {
             $call .= '&category=' . $category;
         }
 
+        if(!empty($startIndex)) {
+            $call .= '&start=' . $startIndex;
+        }
+
         return $this->client->request($call);
     }
 }
