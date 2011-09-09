@@ -1,37 +1,35 @@
 <?php
 
-class CategoriesTest extends PHPUnit_Framework_TestCase 
+class CategorySearcherTest extends PHPUnit_Framework_TestCase
 {
     private $clientMocked;
-    private $categories;
+    private $categoriesSearcher;
 
     public function setUp() {
         $baseUri = "base-uri";
-        
+
         $this->clientMocked = $this->getMockBuilder('HttpClient')
                                    ->disableOriginalConstructor()
                                    ->getMock();
-                                        
+
         $this->clientMocked->expects($this->any())
                            ->method('request')
                            ->will($this->returnValue('categories-retrieved'));
- 
-        $this->categories = new Categories($this->clientMocked);
+
+        $this->categoriesSearcher = new CategorySearcher($this->clientMocked);
     }
 
-    public function tearDown() {
-    }
-    
+
     public function testThatGetAllCategoriesRetrieveCategories() {
-        $categoriesRetrieved = $this->categories->getAll();
+        $categoriesRetrieved = $this->categoriesSearcher->getAll();
         $this->assertEquals('categories-retrieved', $categoriesRetrieved);
     }
-    
-    public function testThatGetAllCategoriesCallRequestWithCategories() {        
+
+    public function testThatGetAllCategoriesCallRequestWithCategories() {
         $this->clientMocked->expects($this->once())
                        ->method('request')
                        ->with($this->equalTo('/categories'));
-        
-        $this->categories->getAll();        
+
+        $this->categoriesSearcher->getAll();
     }
 }
