@@ -5,7 +5,7 @@ class PlaceSearcher {
     private $client;
     private $queryBuilder;
 
-    public function __construct(HttpClient $client, UriBuilder $queryBuilder) {
+    public function __construct(HttpClientWrapper $client, UriBuilder $queryBuilder) {
         $this->client = $client;
         $this->queryBuilder = $queryBuilder;
     }

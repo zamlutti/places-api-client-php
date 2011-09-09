@@ -14,7 +14,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
     private $placesRetrieved = 'places-retrieved';
 
     public function setUp() {
-        $this->clientMocked = $this->getMockBuilder('HttpClient')
+        $this->clientMocked = $this->getMockBuilder('HttpClientWrapper')
                                    ->disableOriginalConstructor()
                                    ->getMock();
 

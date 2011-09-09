@@ -6,9 +6,7 @@ class CategorySearcherTest extends PHPUnit_Framework_TestCase
     private $categoriesSearcher;
 
     public function setUp() {
-        $baseUri = "base-uri";
-
-        $this->clientMocked = $this->getMockBuilder('HttpClient')
+        $this->clientMocked = $this->getMockBuilder('HttpClientWrapper')
                                    ->disableOriginalConstructor()
                                    ->getMock();
 

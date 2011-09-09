@@ -4,7 +4,7 @@ class CategorySearcher
 {
     private $client;
 
-    public function __construct(HttpClient $client) {
+    public function __construct(HttpClientWrapper $client) {
         $this->client = $client;
     }
 
