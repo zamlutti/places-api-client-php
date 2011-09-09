@@ -1,5 +1,4 @@
 <?php
-
 include_once('../Autoloader.php');
 
 class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
@@ -14,11 +13,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
 
         $searcher = new PlaceSearcher($factoryStubbed);
         $placeSearchRequest = new PlaceSearchRequest();
-
-        $placeSearchRequest->latitide = -23.45;
-        $placeSearchRequest->longitude = -43.56;
-        $placeSearchRequest->radius = 0.5;
-
+        
         $placesRetrieved =  $searcher->byRadius($placeSearchRequest);
 
         $this->assertInstanceOf("PlaceSearchResult", $placesRetrieved);
