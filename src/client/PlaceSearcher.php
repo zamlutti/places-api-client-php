@@ -32,5 +32,9 @@ class PlaceSearcher {
 
         return $this->client->request($this->queryBuilder->buildQuery());
     }
+
+    public function byUri($uri) {
+        return $this->client->request($uri);
+    }
 }
 

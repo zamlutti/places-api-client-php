@@ -9,12 +9,11 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
     private $radius = 0.5;
     private $latitude = -23.45;
     private $longitude = -46.78;
+    private $baseUri = "base-uri";
     private $queryBuilt = 'query-built';
     private $placesRetrieved = 'places-retrieved';
 
     public function setUp() {
-        $baseUri = "base-uri";
-
         $this->clientMocked = $this->getMockBuilder('HttpClient')
                                    ->disableOriginalConstructor()
                                    ->getMock();
@@ -46,6 +45,12 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
                                   $this->latitude,
                                   $this->longitude,
                                   'pizza');
+
+        $this->assertEquals($this->placesRetrieved, $placesRetrieved);
+    }
+
+    public function testThatSearchByUri() {
+        $placesRetrieved = $this->placeSearcher->byUri($this->baseUri);
 
         $this->assertEquals($this->placesRetrieved, $placesRetrieved);
     }
@@ -145,4 +150,14 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
                                        $this->latitude,
                                        $this->longitude);
     }
+
+    public function testThatSearchByUriCallPlaceRequest() {
+        $this->clientMocked->expects($this->once())
+                       ->method('request')
+                       ->with($this->equalTo($this->baseUri));
+
+        $this->placeSearcher->byUri($this->baseUri);
+    }
+
+
 }
