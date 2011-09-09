@@ -24,21 +24,68 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
     }
 
     public function testSearchByRadius(){
-        $placesRetrieved = $this->placeSearcher->byRadius(0.5,
+        $placesRetrieved = $this->placeSearcher->byRadius($this->radius,
                                   $this->latitude,
                                   $this->longitude);
 
         $this->assertEquals('places-retrieved', $placesRetrieved);
     }
 
+    public function testSearchByRadiusWithTerm(){
+        $placesRetrieved = $this->placeSearcher->byRadius($this->radius,
+                                  $this->latitude,
+                                  $this->longitude,
+                                  'pizza');
 
-    public function testThatSearchByRadiusCallRequestWithRadius() {
+        $this->assertEquals('places-retrieved', $placesRetrieved);
+    }
+
+    public function testSearchByRadiusWithCategory(){
+        $placesRetrieved = $this->placeSearcher->byRadius($this->radius,
+                                  $this->latitude,
+                                  $this->longitude,
+                                  '',
+                                  'category');
+
+        $this->assertEquals('places-retrieved', $placesRetrieved);
+    }
+
+    public function testThatSearchByRadiusCallPlaceRequest() {
+        $expected = '/places/byradius?radius=0.50&latitude=-23.45&longitude=-46.78';
+
         $this->clientMocked->expects($this->once())
                        ->method('request')
-                       ->with($this->equalTo('/places/byradius?radius=0.50&latitude=-23.45&longitude=-46.78'));
+                       ->with($this->equalTo($expected));
 
         $this->placeSearcher->byRadius($this->radius,
                                        $this->latitude,
                                        $this->longitude);
+    }
+
+    public function testThatSearchByRadiusWithTermCallPlaceRequestWithTerm() {
+        $expected = '/places/byradius?radius=0.50&latitude=-23.45&longitude=-46.78&term=pizza';
+
+        $this->clientMocked->expects($this->once())
+                       ->method('request')
+                       ->with($this->equalTo($expected));
+
+        $this->placeSearcher->byRadius($this->radius,
+                                       $this->latitude,
+                                       $this->longitude,
+                                       'pizza');
+    }
+
+    public function testThatSearchByRadiusWithCategoryCallPlaceRequestWithCategory() {
+        $expected = '/places/byradius?radius=0.50&latitude=-23.45&longitude=-46.78&category=pizzaria';
+
+        $this->clientMocked->expects($this->once())
+                       ->method('request')
+                       ->with($this->equalTo($expected));
+
+        $this->placeSearcher->byRadius($this->radius,
+                                       $this->latitude,
+                                       $this->longitude,
+                                       '',
+                                       'pizzaria');
     }
 }

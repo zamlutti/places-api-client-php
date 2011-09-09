@@ -14,6 +14,15 @@ class PlaceSearcher {
         $call = sprintf('/places/byradius?radius=%.2f&latitude=%.2f&longitude=%.2f',
                         $radius, $latitude, $longitude);
 
+        if(!empty($term)) {
+            $call .= '&term=' . $term;
+        }
+
+        if(!empty($category)) {
+            $call .= '&category=' . $category;
+        }
+
         return $this->client->request($call);
     }
 }
+
