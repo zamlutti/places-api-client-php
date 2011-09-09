@@ -4,10 +4,13 @@ include_once('../Autoloader.php');
 class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
 
     private $clientMocked;
+    private $uriBuilderMocked;
     private $placeSearcher;
     private $radius = 0.5;
     private $latitude = -23.45;
     private $longitude = -46.78;
+    private $queryBuilt = 'query-built';
+    private $placesRetrieved = 'places-retrieved';
 
     public function setUp() {
         $baseUri = "base-uri";
@@ -18,9 +21,16 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
 
         $this->clientMocked->expects($this->any())
                            ->method('request')
-                           ->will($this->returnValue('places-retrieved'));
+                           ->will($this->returnValue($this->placesRetrieved));
 
-        $this->placeSearcher = new PlaceSearcher($this->clientMocked);
+        $this->uriBuilderMocked = $this->getMock('UriBuilder');
+        $this->uriBuilderMocked->expects($this->any())
+                            ->method('buildQuery')
+                            ->will($this->returnValue($this->queryBuilt));
+
+
+        $this->placeSearcher = new PlaceSearcher($this->clientMocked,
+                                                 $this->uriBuilderMocked);
     }
 
     public function testSearchByRadius(){
@@ -28,7 +38,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
                                   $this->latitude,
                                   $this->longitude);
 
-        $this->assertEquals('places-retrieved', $placesRetrieved);
+        $this->assertEquals($this->placesRetrieved, $placesRetrieved);
     }
 
     public function testSearchByRadiusWithTerm(){
@@ -37,36 +47,34 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
                                   $this->longitude,
                                   'pizza');
 
-        $this->assertEquals('places-retrieved', $placesRetrieved);
+        $this->assertEquals($this->placesRetrieved, $placesRetrieved);
     }
 
     public function testSearchByRadiusWithCategory(){
         $placesRetrieved = $this->placeSearcher->byRadius($this->radius,
                                   $this->latitude,
                                   $this->longitude,
-                                  '',
-                                  'category');
+                                  null,
+                                  0);
 
-        $this->assertEquals('places-retrieved', $placesRetrieved);
+        $this->assertEquals($this->placesRetrieved, $placesRetrieved);
     }
 
     public function testSearchByRadiusWithStartIndex(){
         $placesRetrieved = $this->placeSearcher->byRadius($this->radius,
                                   $this->latitude,
                                   $this->longitude,
-                                  '',
-                                  '',
+                                  null,
+                                  null,
                                   10);
 
-        $this->assertEquals('places-retrieved', $placesRetrieved);
+        $this->assertEquals($this->placesRetrieved, $placesRetrieved);
     }
 
     public function testThatSearchByRadiusCallPlaceRequest() {
-        $expected = '/places/byradius?radius=0.50&latitude=-23.45&longitude=-46.78';
-
         $this->clientMocked->expects($this->once())
                        ->method('request')
-                       ->with($this->equalTo($expected));
+                       ->with($this->equalTo($this->queryBuilt));
 
         $this->placeSearcher->byRadius($this->radius,
                                        $this->latitude,
@@ -74,11 +82,9 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
     }
 
     public function testThatSearchByRadiusWithTermCallPlaceRequestWithTerm() {
-        $expected = '/places/byradius?radius=0.50&latitude=-23.45&longitude=-46.78&term=pizza';
-
         $this->clientMocked->expects($this->once())
                        ->method('request')
-                       ->with($this->equalTo($expected));
+                       ->with($this->equalTo($this->queryBuilt));
 
         $this->placeSearcher->byRadius($this->radius,
                                        $this->latitude,
@@ -87,33 +93,56 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
     }
 
     public function testThatSearchByRadiusWithCategoryCallPlaceRequestWithCategory() {
-        $expected = '/places/byradius?radius=0.50&latitude=-23.45&longitude=-46.78&category=pizzaria';
-
         $this->clientMocked->expects($this->once())
                        ->method('request')
-                       ->with($this->equalTo($expected));
+                       ->with($this->equalTo($this->queryBuilt));
 
         $this->placeSearcher->byRadius($this->radius,
                                        $this->latitude,
                                        $this->longitude,
-                                       '',
-                                       'pizzaria');
+                                       null,
+                                       0);
     }
 
     public function testThatSearchByRadiusWithStartIndexCallPlaceRequestWithStartIndex() {
-        $expected = '/places/byradius?radius=0.50&latitude=-23.45&longitude=-46.78&start=10';
-
         $this->clientMocked->expects($this->once())
                        ->method('request')
-                       ->with($this->equalTo($expected));
+                       ->with($this->equalTo($this->queryBuilt));
 
         $this->placeSearcher->byRadius($this->radius,
                                        $this->latitude,
                                        $this->longitude,
-                                       '',
-                                       '',
+                                       null,
+                                       null,
                                        10);
     }
 
+    public function testThatSearchByRadiusSetBaseQuery() {
+        $this->uriBuilderMocked->expects($this->once())
+                       ->method('setBase')
+                       ->with($this->equalTo('/places/byradius'));
 
+        $this->placeSearcher->byRadius($this->radius,
+                                       $this->latitude,
+                                       $this->longitude);
+    }
+
+    public function testThatSearchByRadiusAddsRequiredParameters() {
+        $this->uriBuilderMocked->expects($this->exactly(3))
+                       ->method('addParameter');
+
+
+        $this->placeSearcher->byRadius($this->radius,
+                                       $this->latitude,
+                                       $this->longitude);
+    }
+
+    public function testThatSearchByRadiusCallsBuildQuery() {
+        $this->uriBuilderMocked->expects($this->once())
+                       ->method('buildQuery');
+
+        $this->placeSearcher->byRadius($this->radius,
+                                       $this->latitude,
+                                       $this->longitude);
+    }
 }

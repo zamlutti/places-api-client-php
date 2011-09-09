@@ -3,30 +3,34 @@
 class PlaceSearcher {
 
     private $client;
+    private $queryBuilder;
 
-    public function __construct(HttpClient $client) {
+    public function __construct(HttpClient $client, UriBuilder $queryBuilder) {
         $this->client = $client;
+        $this->queryBuilder = $queryBuilder;
     }
 
     public function byRadius($radius, $latitude, $longitude, $term = null,
-                             $category = null, $startIndex = null) {
+                             $categoryId = null, $startIndex = null) {
 
-        $call = sprintf('/places/byradius?radius=%.2f&latitude=%.2f&longitude=%.2f',
-                        $radius, $latitude, $longitude);
+        $this->queryBuilder->setBase('/places/byradius');
+        $this->queryBuilder->addParameter('radius', $radius);
+        $this->queryBuilder->addParameter('latitude', $latitude);
+        $this->queryBuilder->addParameter('longitude', $longitude);
 
         if(!empty($term)) {
-            $call .= '&term=' . $term;
+            $this->queryBuilder->addParameter('term', $term);
         }
 
-        if(!empty($category)) {
-            $call .= '&category=' . $category;
+        if(!is_null($categoryId)) {
+            $this->queryBuilder->addParameter('category', $categoryId);
         }
 
         if(!empty($startIndex)) {
-            $call .= '&start=' . $startIndex;
+            $this->queryBuilder->addParameter('start', $startIndex);
         }
 
-        return $this->client->request($call);
+        return $this->client->request($this->queryBuilder->buildQuery());
     }
 }
 
