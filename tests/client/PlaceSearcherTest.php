@@ -1,9 +1,6 @@
 <?php
-require_once('../src/client/PlaceSearcher.php');
-require_once('../src/client/PlaceSearchRequest.php');
-require_once('../src/client/PlaceSearchResult.php');
-require_once('../src/client/PlaceSearchResultFactory.php');
 
+include_once('../Autoloader.php');
 
 class PlaceSearcherTest extends PHPUnit_Framework_TestCase{
 
