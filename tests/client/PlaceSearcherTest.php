@@ -13,8 +13,6 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
     private $baseUri = "base-uri";
     private $queryBuilt = 'query-built';
     private $placesRetrieved = 'places-retrieved';
-    private $licenseLogin = 'license-login';
-    private $licenseKey = 'license-key';
 
     public function setUp()
     {
@@ -38,9 +36,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
 
     public function testSearchByRadius()
     {
-        $placesRetrieved = $this->placeSearcher->byRadius($this->licenseLogin,
-                                                          $this->licenseKey,
-                                                          $this->radius,
+        $placesRetrieved = $this->placeSearcher->byRadius($this->radius,
                                                           $this->latitude,
                                                           $this->longitude);
 
@@ -49,9 +45,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
 
     public function testSearchByRadiusWithTerm()
     {
-        $placesRetrieved = $this->placeSearcher->byRadius($this->licenseLogin,
-                                                          $this->licenseKey,
-                                                          $this->radius,
+        $placesRetrieved = $this->placeSearcher->byRadius($this->radius,
                                                           $this->latitude,
                                                           $this->longitude,
                                                           'pizza');
@@ -61,18 +55,14 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
 
     public function testThatSearchByUri()
     {
-        $placesRetrieved = $this->placeSearcher->byUri($this->licenseLogin,
-                                                       $this->licenseKey,
-                                                       $this->baseUri);
+        $placesRetrieved = $this->placeSearcher->byUri($this->baseUri);
 
         $this->assertEquals($this->placesRetrieved, $placesRetrieved);
     }
 
     public function testSearchByRadiusWithCategory()
     {
-        $placesRetrieved = $this->placeSearcher->byRadius($this->licenseLogin,
-                                                          $this->licenseKey,
-                                                          $this->radius,
+        $placesRetrieved = $this->placeSearcher->byRadius($this->radius,
                                                           $this->latitude,
                                                           $this->longitude,
                                                           null,
@@ -83,9 +73,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
 
     public function testSearchByRadiusWithStartIndex()
     {
-        $placesRetrieved = $this->placeSearcher->byRadius($this->licenseLogin,
-                                                          $this->licenseKey,
-                                                          $this->radius,
+        $placesRetrieved = $this->placeSearcher->byRadius($this->radius,
                                                           $this->latitude,
                                                           $this->longitude,
                                                           null,
@@ -101,9 +89,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
                 ->method('request')
                 ->with($this->equalTo($this->queryBuilt));
 
-        $this->placeSearcher->byRadius($this->licenseLogin,
-                                       $this->licenseKey,
-                                       $this->radius,
+        $this->placeSearcher->byRadius($this->radius,
                                        $this->latitude,
                                        $this->longitude);
     }
@@ -114,9 +100,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
                 ->method('request')
                 ->with($this->equalTo($this->queryBuilt));
 
-        $this->placeSearcher->byRadius($this->licenseLogin,
-                                       $this->licenseKey,
-                                       $this->radius,
+        $this->placeSearcher->byRadius($this->radius,
                                        $this->latitude,
                                        $this->longitude,
                                        'pizza');
@@ -128,9 +112,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
                 ->method('request')
                 ->with($this->equalTo($this->queryBuilt));
 
-        $this->placeSearcher->byRadius($this->licenseLogin,
-                                       $this->licenseKey,
-                                       $this->radius,
+        $this->placeSearcher->byRadius($this->radius,
                                        $this->latitude,
                                        $this->longitude,
                                        null,
@@ -143,9 +125,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
                 ->method('request')
                 ->with($this->equalTo($this->queryBuilt));
 
-        $this->placeSearcher->byRadius($this->licenseLogin,
-                                       $this->licenseKey,
-                                       $this->radius,
+        $this->placeSearcher->byRadius($this->radius,
                                        $this->latitude,
                                        $this->longitude,
                                        null,
@@ -159,9 +139,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
                 ->method('setBase')
                 ->with($this->equalTo('/places/byradius'));
 
-        $this->placeSearcher->byRadius($this->licenseLogin,
-                                       $this->licenseKey,
-                                       $this->radius,
+        $this->placeSearcher->byRadius($this->radius,
                                        $this->latitude,
                                        $this->longitude);
     }
@@ -172,9 +150,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
                 ->method('addParameter');
 
 
-        $this->placeSearcher->byRadius($this->licenseLogin,
-                                       $this->licenseKey,
-                                       $this->radius,
+        $this->placeSearcher->byRadius($this->radius,
                                        $this->latitude,
                                        $this->longitude);
     }
@@ -184,9 +160,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
         $this->uriBuilderMocked->expects($this->once())
                 ->method('buildQuery');
 
-        $this->placeSearcher->byRadius($this->licenseLogin,
-                                       $this->licenseKey,
-                                       $this->radius,
+        $this->placeSearcher->byRadius($this->radius,
                                        $this->latitude,
                                        $this->longitude);
     }
@@ -197,10 +171,6 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
                 ->method('request')
                 ->with($this->equalTo($this->baseUri));
 
-        $this->placeSearcher->byUri($this->licenseLogin,
-                                    $this->licenseKey,
-                                    $this->baseUri);
+        $this->placeSearcher->byUri($this->baseUri);
     }
-
-
 }

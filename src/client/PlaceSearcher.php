@@ -12,7 +12,7 @@ class PlaceSearcher
         $this->queryBuilder = $queryBuilder;
     }
 
-    public function byRadius($login, $key, $radius, $latitude, $longitude, $term = null,
+    public function byRadius($radius, $latitude, $longitude, $term = null,
         $categoryId = null, $startIndex = null)
     {
 
@@ -33,12 +33,12 @@ class PlaceSearcher
             $this->queryBuilder->addParameter('start', $startIndex);
         }
 
-        return $this->client->request($this->queryBuilder->buildQuery(), $login, $key);
+        return $this->client->request($this->queryBuilder->buildQuery());
     }
 
-    public function byUri($login, $key, $uri)
+    public function byUri($uri)
     {
-        return $this->client->request($uri, $login, $key);
+        return $this->client->request($uri);
     }
 }
 

@@ -4,8 +4,6 @@ class CategorySearcherTest extends PHPUnit_Framework_TestCase
 {
     private $clientMocked;
     private $categoriesSearcher;
-    private $licenseLogin = 'license-login';
-    private $licenseKey = 'license-key';
 
     public function setUp()
     {
@@ -23,7 +21,7 @@ class CategorySearcherTest extends PHPUnit_Framework_TestCase
 
     public function testThatGetAllCategoriesRetrieveCategories()
     {
-        $categoriesRetrieved = $this->categoriesSearcher->getAll($this->licenseLogin, $this->licenseKey);
+        $categoriesRetrieved = $this->categoriesSearcher->getAll();
         $this->assertEquals('categories-retrieved', $categoriesRetrieved);
     }
 
@@ -31,10 +29,8 @@ class CategorySearcherTest extends PHPUnit_Framework_TestCase
     {
         $this->clientMocked->expects($this->once())
                 ->method('request')
-                ->with($this->equalTo('/categories'),
-                       $this->equalTo($this->licenseLogin),
-                       $this->equalTo($this->licenseKey));
+                ->with($this->equalTo('/categories'));
 
-        $this->categoriesSearcher->getAll($this->licenseLogin, $this->licenseKey);
+        $this->categoriesSearcher->getAll();
     }
 }

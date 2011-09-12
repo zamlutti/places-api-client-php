@@ -9,9 +9,9 @@ class CategorySearcher
         $this->client = $client;
     }
 
-    public function getAll($login, $key)
+    public function getAll()
     {
-        return $this->client->request('/categories', $login, $key);
+        return $this->client->request('/categories');
     }
 
 }

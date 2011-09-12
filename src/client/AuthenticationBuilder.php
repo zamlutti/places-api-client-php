@@ -19,7 +19,7 @@ class AuthenticationBuilder
 
     public function generateSignature($hashContent)
     {
-        return hexdec(hash_hmac('sha1', $hashContent, $this->key));
+        return hash_hmac('sha1', $hashContent, $this->key);
     }
 
     public function generateBase($signature)

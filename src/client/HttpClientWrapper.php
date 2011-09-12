@@ -11,7 +11,7 @@ class HttpClientWrapper
         $this->authenticationBuilder = $authenticationBuilder;
     }
 
-    public function request($call, $login, $key)
+    public function request($call)
     {
         $ch = $this->initialize();
 
@@ -63,7 +63,7 @@ class HttpClientWrapper
     private function getFormattedDate()
     {
         date_default_timezone_set('UTC');
-        return date('D, d M Y H:i:s');
+        return date('D, d M Y H:i:s e');
     }
 
     private function getResponse($ch)
