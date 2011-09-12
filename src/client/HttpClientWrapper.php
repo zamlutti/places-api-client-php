@@ -18,10 +18,12 @@ class HttpClientWrapper
         $this->setUrl($ch, $this->host . $call);
 
         $date = $this->getFormattedDate();
-        $hash = $this->authenticationBuilder->generateHash($date, $call);
-        $signature = $this->authenticationBuilder->generateSignature($hash);
-        $base = $this->authenticationBuilder->generateBase($signature);
-        $auth = $this->authenticationBuilder->build($base);
+        $auth = $this->authenticationBuilder
+                ->withHashContent($date, $call)
+                ->withSignature()
+                ->withBase()
+                ->build();
+
         $this->addAuthenticationHeaders($ch, $date, $auth);
 
         $this->setOptions($ch);
@@ -62,7 +64,7 @@ class HttpClientWrapper
 
     private function getFormattedDate()
     {
-        date_default_timezone_set('UTC');
+        date_default_timezone_set('GMT');
         return date('D, d M Y H:i:s e');
     }
 

@@ -4,31 +4,36 @@ class AuthenticationBuilder
 {
     private $login;
     private $key;
+    private $authenticationString;
 
     public function __construct($login, $key)
     {
         $this->login = $login;
         $this->key = $key;
+        $this->authenticationString = '';
     }
 
-    public function generateHash($date, $uri)
+    public function withHashContent($date, $uri)
     {
-        return 'GET\n' . $date . '\n' . $uri . '\n' . $this->login;
+        $this->authenticationString = 'GET\n' . $date . '\n' . $uri . '\n' . $this->login;
+        return $this;
 
     }
 
-    public function generateSignature($hashContent)
+    public function withSignature()
     {
-        return hash_hmac('sha1', $hashContent, $this->key);
+        $this->authenticationString = hash_hmac('sha1', $this->authenticationString, $this->key);
+        return $this;
     }
 
-    public function generateBase($signature)
+    public function withBase()
     {
-        return $this->login . ':' . $signature;
+        $this->authenticationString = $this->login . ':' . $this->authenticationString;
+        return $this;
     }
 
-    public function build($authBase)
+    public function build()
     {
-        return base64_encode($authBase);
+        return base64_encode($this->authenticationString);
     }
 }

@@ -6,34 +6,43 @@ class AuthenticationBuilderTest extends PHPUnit_Framework_TestCase
     private $licenseLogin = 'license-login';
     private $licenseKey = 'license-key';
     private $hashContent = 'GET\ndate\nuri\nlicense-login';
-    private $signature = 'generated-signature';
-    private $base = 'license-login:generated-signature';
+    private $base = 'license-login:';
 
     public function setUp()
     {
         $this->authenticationBuilder = new AuthenticationBuilder($this->licenseLogin, $this->licenseKey);
     }
 
-    public function testThatHashContentWasGenerated()
+    public function testThatAnEmptyAuthenticationStringWasBuilt()
     {
-        $hash = $this->authenticationBuilder->generateHash('date', 'uri');
+        $authenticationString = $this->authenticationBuilder->build();
+        $this->assertEmpty($authenticationString);
+    }
+
+    public function testThatAuthenticationStringWasBuiltWithHashContent()
+    {
+        $hashContentEncoded = $this->authenticationBuilder
+                ->withHashContent('date', 'uri')
+                ->build();
+        $hash = base64_decode($hashContentEncoded);
         $this->assertEquals($this->hashContent, $hash);
     }
 
     public function testThatSignatureWasGenerated()
     {
-        $signature = $this->authenticationBuilder->generateSignature($this->hashContent);
+        $signatureEncoded = $this->authenticationBuilder
+                ->withSignature()
+        ->build();
+        $signature = base64_decode($signatureEncoded);
         $this->assertNotEmpty($signature);
     }
 
-    public function testThatBaseWasGenerated(){
-        $base = $this->authenticationBuilder->generateBase($this->signature);
+    public function testThatBaseWasGenerated()
+    {
+        $baseEncoded = $this->authenticationBuilder->withBase()->build();
+        $base = base64_decode($baseEncoded);
         $this->assertEquals($this->base, $base);
     }
 
-    public function testThatAuthenticationStringWasBuilt()
-    {
-        $authenticationString = $this->authenticationBuilder->build($this->base);
-        $this->assertNotEmpty($authenticationString);
-    }
+
 }
