@@ -12,29 +12,34 @@ class UriBuilderTest extends PHPUnit_Framework_TestCase
 
     public function testBuildQuery()
     {
-        $this->uriBuilder->setBase('base-uri');
-        $queryBuilt = $this->uriBuilder->buildQuery();
+        $queryBuilt = $this->uriBuilder
+                ->withBase('base-uri')
+                ->build();
 
         $this->assertEquals('base-uri', $queryBuilt);
     }
 
     public function testBuildQueryWithOneParameter()
     {
-        $this->uriBuilder->setBase('base-uri');
-        $this->uriBuilder->addParameter('first-parameter', 'first-value');
         $expected = 'base-uri?first-parameter=first-value';
+        $queryBuilt = $this->uriBuilder
+                ->withBase('base-uri')
+                ->withParameter('first-parameter', 'first-value')
+                ->build();
 
-        $this->assertEquals($expected, $this->uriBuilder->buildQuery());
+        $this->assertEquals($expected, $queryBuilt);
     }
 
     public function testBuildQueryWithTwoParameteres()
     {
-        $this->uriBuilder->setBase('base-uri');
-        $this->uriBuilder->addParameter('first-parameter', 'first-value');
-        $this->uriBuilder->addParameter('second-parameter', 'second-value');
         $expected = 'base-uri?first-parameter=first-value&second-parameter=second-value';
+        $queryBuilt = $this->uriBuilder
+                ->withBase('base-uri')
+                ->withParameter('first-parameter', 'first-value')
+                ->withParameter('second-parameter', 'second-value')
+                ->build();
 
-        $this->assertEquals($expected, $this->uriBuilder->buildQuery());
+        $this->assertEquals($expected, $queryBuilt);
     }
 
 

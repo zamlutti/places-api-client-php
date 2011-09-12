@@ -47,7 +47,7 @@ class HttpClientWrapper
     private function addAuthenticationHeaders($ch, $date, $auth)
     {
         curl_setopt($ch, CURLOPT_HTTPHEADER,
-                    array('X-Maplink-Date: ' . $date, 'Autorization: MAPLINKWS' . $auth));
+                    array('X-Maplink-Date: ' . $date, 'Autorization: MAPLINKWS ' . $auth));
     }
 
     private function setUrl($ch, $url)

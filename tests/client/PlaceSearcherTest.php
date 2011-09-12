@@ -26,7 +26,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
 
         $this->uriBuilderMocked = $this->getMock('UriBuilder');
         $this->uriBuilderMocked->expects($this->any())
-                ->method('buildQuery')
+                ->method('build')
                 ->will($this->returnValue($this->queryBuilt));
 
 
@@ -136,7 +136,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
     public function testThatSearchByRadiusSetBaseQuery()
     {
         $this->uriBuilderMocked->expects($this->once())
-                ->method('setBase')
+                ->method('withBase')
                 ->with($this->equalTo('/places/byradius'));
 
         $this->placeSearcher->byRadius($this->radius,
@@ -147,7 +147,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
     public function testThatSearchByRadiusAddsRequiredParameters()
     {
         $this->uriBuilderMocked->expects($this->exactly(3))
-                ->method('addParameter');
+                ->method('withParameter');
 
 
         $this->placeSearcher->byRadius($this->radius,
@@ -158,7 +158,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
     public function testThatSearchByRadiusCallsBuildQuery()
     {
         $this->uriBuilderMocked->expects($this->once())
-                ->method('buildQuery');
+                ->method('build');
 
         $this->placeSearcher->byRadius($this->radius,
                                        $this->latitude,

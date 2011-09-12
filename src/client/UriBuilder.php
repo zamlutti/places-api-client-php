@@ -10,25 +10,26 @@ class UriBuilder
 
     }
 
-    public function buildQuery()
+    public function build()
     {
         return empty($this->queryBuilt)
                 ? ''
                 : $this->queryBuilt;
     }
 
-    public function setBase($baseCall)
+    public function withBase($baseCall)
     {
         $this->baseCall = $baseCall;
         $this->queryBuilt = $baseCall;
+        return $this;
     }
 
-    public function addParameter($parameter, $value)
+    public function withParameter($parameter, $value)
     {
         $concat = $this->isFirstParameter() ? '?' : '&';
         $this->queryBuilt = $this->queryBuilt . $concat .
                             urlencode($parameter) . '=' . urlencode($value);
-
+        return $this;
     }
 
     private function isFirstParameter()

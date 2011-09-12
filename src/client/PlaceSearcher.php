@@ -16,24 +16,24 @@ class PlaceSearcher
         $categoryId = null, $startIndex = null)
     {
 
-        $this->queryBuilder->setBase('/places/byradius');
-        $this->queryBuilder->addParameter('radius', $radius);
-        $this->queryBuilder->addParameter('latitude', $latitude);
-        $this->queryBuilder->addParameter('longitude', $longitude);
+        $this->queryBuilder->withBase('/places/byradius');
+        $this->queryBuilder->withParameter('radius', $radius);
+        $this->queryBuilder->withParameter('latitude', $latitude);
+        $this->queryBuilder->withParameter('longitude', $longitude);
 
         if (!empty($term)) {
-            $this->queryBuilder->addParameter('term', $term);
+            $this->queryBuilder->withParameter('term', $term);
         }
 
         if (!is_null($categoryId)) {
-            $this->queryBuilder->addParameter('category', $categoryId);
+            $this->queryBuilder->withParameter('category', $categoryId);
         }
 
         if (!empty($startIndex)) {
-            $this->queryBuilder->addParameter('start', $startIndex);
+            $this->queryBuilder->withParameter('start', $startIndex);
         }
 
-        return $this->client->request($this->queryBuilder->buildQuery());
+        return $this->client->request($this->queryBuilder->build());
     }
 
     public function byUri($uri)
