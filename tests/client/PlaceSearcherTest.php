@@ -12,7 +12,17 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
     private $longitude = -46.78;
     private $baseUri = "base-uri";
     private $queryBuilt = 'query-built';
-    private $placesRetrieved = 'places-retrieved';
+    private $placesRetrieved;
+    private $places = '<places>
+                            <place>
+                                <id>1</id>
+                                <name>first-place</name>
+                            </place>
+                            <place>
+                                <id>2</id>
+                                <name>second-place</name>
+                            </place>
+                        </places>';
 
     public function setUp()
     {
@@ -22,7 +32,8 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
 
         $this->clientMocked->expects($this->any())
                 ->method('request')
-                ->will($this->returnValue($this->placesRetrieved));
+                ->will($this->returnValue($this->places));
+        $this->placesRetrieved = simplexml_load_string($this->places);
 
         $this->uriBuilderMocked = $this->getMock('UriBuilder');
         $this->uriBuilderMocked->expects($this->any())
