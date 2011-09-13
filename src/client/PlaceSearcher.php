@@ -33,12 +33,12 @@ class PlaceSearcher
             $this->queryBuilder->withParameter('start', $startIndex);
         }
 
-        return simplexml_load_string($this->client->request($this->queryBuilder->build()));
+        return new SimpleXMLElement($this->client->request($this->queryBuilder->build()));
     }
 
     public function byUri($uri)
     {
-        return simplexml_load_string($this->client->request($uri));
+        return new SimpleXMLElement($this->client->request($uri));
     }
 }
 
