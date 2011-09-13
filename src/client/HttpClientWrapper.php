@@ -13,13 +13,15 @@ class HttpClientWrapper
 
     public function request($call)
     {
-        $ch = $this->initialize();
+        $url = $this->host . $call;
 
-        $this->setUrl($ch, $this->host . $call);
+        $ch = $this->initialize();
+        $this->setUrl($ch, $url);
 
         $date = $this->getFormattedDate();
+
         $auth = $this->authenticationBuilder
-                ->withHashContent($date, $call)
+                ->withHashContent($date, $url)
                 ->withSignature()
                 ->withBase()
                 ->build();
@@ -30,13 +32,14 @@ class HttpClientWrapper
 
         $response = $this->getResponse($ch);
         $info = $this->getInfo($ch);
-
         $this->closeConnection($ch);
 
-        if ($info['http_code'] == 200) {
+
+        if ($info['http_code'] == 200 || $info['http_code'] == 404) {
             return $response;
         }
-        return false;
+
+        throw new Exception($response, $info['http_code']);
     }
 
     private function initialize()
@@ -47,7 +50,7 @@ class HttpClientWrapper
     private function addAuthenticationHeaders($ch, $date, $auth)
     {
         curl_setopt($ch, CURLOPT_HTTPHEADER,
-                    array('X-Maplink-Date: ' . $date, 'Autorization: MAPLINKWS ' . $auth));
+                    array('X-Maplink-Date: ' . $date, 'Authorization: MAPLINKWS ' . $auth));
     }
 
     private function setUrl($ch, $url)
@@ -59,7 +62,6 @@ class HttpClientWrapper
     {
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-        curl_setopt($ch, CURLOPT_FAILONERROR, 1);
     }
 
     private function getFormattedDate()

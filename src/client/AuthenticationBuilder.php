@@ -15,7 +15,7 @@ class AuthenticationBuilder
 
     public function withHashContent($date, $uri)
     {
-        $this->authenticationString = 'GET\n' . $date . '\n' . $uri . '\n' . $this->login;
+        $this->authenticationString = sprintf("GET\n%s\n%s\n%s", $date, $uri, $this->login);
         return $this;
 
     }
@@ -28,7 +28,7 @@ class AuthenticationBuilder
 
     public function withBase()
     {
-        $this->authenticationString = $this->login . ':' . $this->authenticationString;
+        $this->authenticationString = sprintf("%s:%s", $this->login, $this->authenticationString);
         return $this;
     }
 
