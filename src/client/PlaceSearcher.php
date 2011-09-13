@@ -1,15 +1,35 @@
 <?php
+require_once 'XML/Unserializer.php';
 
 class PlaceSearcher
 {
 
     private $client;
     private $queryBuilder;
+    private $unserializer;
+    private $options = array(
+        'complexType' => 'object',
+        'tagMap' => array(
+            'places' => 'PlaceResult',
+            'place' => 'Place',
+            'start-index' => 'startIndex',
+            'total-found' => 'totalFound',
+            'zip-code' => 'zipCode',
+            'sub-category' => 'subCategory',
+            'distance' => 'distanceInKilometers',
+        ),
+        'keyAttribute' => array(
+            'atom:link' => 'rel'
+        ),
+        'returnResult' => true
+
+    );
 
     public function __construct(HttpClientWrapper $client, UriBuilder $queryBuilder)
     {
         $this->client = $client;
         $this->queryBuilder = $queryBuilder;
+        $this->unserializer = &new XML_Unserializer($this->options);
     }
 
     public function byRadius($radius, $latitude, $longitude, $term = null,
@@ -33,12 +53,15 @@ class PlaceSearcher
             $this->queryBuilder->withParameter('start', $startIndex);
         }
 
-        return simplexml_load_string($this->client->request($this->queryBuilder->build()));
+        $response = $this->client->request($this->queryBuilder->build());
+
+        return $this->unserializer->unserialize($response);
     }
 
     public function byUri($uri)
     {
-        return simplexml_load_string($this->client->request($uri));
+        $response = $this->client->request($uri);
+        return $this->unserializer->unserialize($response);
     }
 }
 
