@@ -3,7 +3,6 @@ require_once 'XML/Unserializer.php';
 
 class PlaceSearcher
 {
-
     private $client;
     private $queryBuilder;
     private $unserializer;
@@ -22,7 +21,6 @@ class PlaceSearcher
             'atom:link' => 'rel'
         ),
         'returnResult' => true
-
     );
 
     public function __construct(HttpClientWrapper $client, UriBuilder $queryBuilder)

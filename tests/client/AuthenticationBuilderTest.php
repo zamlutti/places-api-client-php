@@ -5,7 +5,8 @@ class AuthenticationBuilderTest extends PHPUnit_Framework_TestCase
     private $authenticationBuilder;
     private $licenseLogin = 'license-login';
     private $licenseKey = 'license-key';
-    private $hashContent = 'GET\ndate\nuri\nlicense-login';
+    
+    private $hashContent = "GET\ndate\nuri\nlicense-login";
     private $base = 'license-login:';
 
     public function setUp()

@@ -23,9 +23,29 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
                                 <name>second-place</name>
                             </place>
                         </places>';
+    private $unserializer;
+    private $options = array(
+        'complexType' => 'object',
+        'tagMap' => array(
+            'places' => 'PlaceResult',
+            'place' => 'Place',
+            'start-index' => 'startIndex',
+            'total-found' => 'totalFound',
+            'zip-code' => 'zipCode',
+            'sub-category' => 'subCategory',
+            'distance' => 'distanceInKilometers',
+        ),
+        'keyAttribute' => array(
+            'atom:link' => 'rel'
+        ),
+        'returnResult' => true
+    );
+
 
     public function setUp()
     {
+        $this->unserializer = &new XML_Unserializer($this->options);
+
         $this->clientMocked = $this->getMockBuilder('HttpClientWrapper')
                 ->disableOriginalConstructor()
                 ->getMock();
@@ -33,7 +53,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
         $this->clientMocked->expects($this->any())
                 ->method('request')
                 ->will($this->returnValue($this->places));
-        $this->placesRetrieved = simplexml_load_string($this->places);
+        $this->placesRetrieved = $this->unserializer->unserialize($this->places);
 
         $this->uriBuilderMocked = $this->getMock('UriBuilder');
         $this->uriBuilderMocked->expects($this->any())
