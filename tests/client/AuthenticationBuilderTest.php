@@ -32,7 +32,7 @@ class AuthenticationBuilderTest extends PHPUnit_Framework_TestCase
     {
         $signatureEncoded = $this->authenticationBuilder
                 ->withSignature()
-        ->build();
+                ->build();
         $signature = base64_decode($signatureEncoded);
         $this->assertNotEmpty($signature);
     }

@@ -15,6 +15,7 @@ class CategorySearcherTest extends PHPUnit_Framework_TestCase
                                     <name>second-category</name>
                                 </category>
                             </categories>';
+
     public function setUp()
     {
         $this->clientMocked = $this->getMockBuilder('HttpClientWrapper')
