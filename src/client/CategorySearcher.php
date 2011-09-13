@@ -11,7 +11,7 @@ class CategorySearcher
 
     public function getAll()
     {
-        return $this->client->request('/categories');
+        return simplexml_load_string($this->client->request('/categories'));
     }
 
 }
