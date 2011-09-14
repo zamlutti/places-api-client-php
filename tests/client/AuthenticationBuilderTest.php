@@ -35,7 +35,7 @@ class AuthenticationBuilderTest extends PHPUnit_Framework_TestCase
                 ->withSignature()
                 ->build();
         $signature = base64_decode($signatureEncoded);
-        $this->assertNotEmpty($signature);
+        $this->assertEquals("0f13184cf7e54783f3acbe42d1c55ffe5b70f5ee", $signature);
     }
 
     public function testThatBaseWasGenerated()
@@ -45,5 +45,16 @@ class AuthenticationBuilderTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($this->base, $base);
     }
 
+    public function testThatAuthorizationStringWasBuilt()
+    {
+        $authorization = $this->authenticationBuilder
+                ->withHashContent("date", "uri")
+                ->withSignature()
+                ->withBase()
+                ->build();
+        $this->assertEquals("license-login:5617994a81c8f3993bafca3d407d9bd97e8577d5",
+                            base64_decode($authorization));
+
+    }
 
 }
