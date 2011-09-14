@@ -6,35 +6,17 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
 
     private $clientMocked;
     private $uriBuilderMocked;
+    private $placesConverterMocked;
     private $placeSearcher;
     private $radius = 0.5;
     private $latitude = -23.45;
     private $longitude = -46.78;
     private $baseUri = "base-uri";
     private $queryBuilt = 'query-built';
-    private $placesRetrieved;
-    private $places = '<places>
-                            <place>
-                                <id>1</id>
-                                <name>first-place</name>
-                            </place>
-                            <place>
-                                <id>2</id>
-                                <name>second-place</name>
-                            </place>
-                        </places>';
+    private $placeResult;
+    private $places = "places-retrieved";
     private $unserializer;
     private $options = array(
-        'complexType' => 'object',
-        'tagMap' => array(
-            'places' => 'PlaceResult',
-            'place' => 'Place',
-            'start-index' => 'startIndex',
-            'total-found' => 'totalFound',
-            'zip-code' => 'zipCode',
-            'sub-category' => 'subCategory',
-            'distance' => 'distanceInKilometers',
-        ),
         'keyAttribute' => array(
             'atom:link' => 'rel'
         ),
@@ -44,8 +26,6 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->unserializer = &new XML_Unserializer($this->options);
-
         $this->clientMocked = $this->getMockBuilder('HttpClientWrapper')
                 ->disableOriginalConstructor()
                 ->getMock();
@@ -53,16 +33,21 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
         $this->clientMocked->expects($this->any())
                 ->method('request')
                 ->will($this->returnValue($this->places));
-        $this->placesRetrieved = $this->unserializer->unserialize($this->places);
 
         $this->uriBuilderMocked = $this->getMock('UriBuilder');
         $this->uriBuilderMocked->expects($this->any())
                 ->method('build')
                 ->will($this->returnValue($this->queryBuilt));
 
+        $this->placeResult = new PlaceResult();
+        $this->placesConverterMocked = $this->getMock('PlacesConverter');
+        $this->placesConverterMocked->expects($this->any())
+                ->method('toPlaceResult')
+                ->will($this->returnValue($this->placeResult));
+
 
         $this->placeSearcher = new PlaceSearcher($this->clientMocked,
-            $this->uriBuilderMocked);
+            $this->uriBuilderMocked, $this->placesConverterMocked);
     }
 
     public function testSearchByRadius()
@@ -71,7 +56,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
                                                           $this->latitude,
                                                           $this->longitude);
 
-        $this->assertEquals($this->placesRetrieved, $placesRetrieved);
+        $this->assertSame($this->placeResult, $placesRetrieved);
     }
 
     public function testSearchByRadiusWithTerm()
@@ -81,14 +66,14 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
                                                           $this->longitude,
                                                           'pizza');
 
-        $this->assertEquals($this->placesRetrieved, $placesRetrieved);
+        $this->assertSame($this->placeResult, $placesRetrieved);
     }
 
     public function testThatSearchByUri()
     {
         $placesRetrieved = $this->placeSearcher->byUri($this->baseUri);
 
-        $this->assertEquals($this->placesRetrieved, $placesRetrieved);
+        $this->assertSame($this->placeResult, $placesRetrieved);
     }
 
     public function testSearchByRadiusWithCategory()
@@ -99,7 +84,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
                                                           null,
                                                           0);
 
-        $this->assertEquals($this->placesRetrieved, $placesRetrieved);
+        $this->assertSame($this->placeResult, $placesRetrieved);
     }
 
     public function testSearchByRadiusWithStartIndex()
@@ -111,7 +96,7 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
                                                           null,
                                                           10);
 
-        $this->assertEquals($this->placesRetrieved, $placesRetrieved);
+        $this->assertSame($this->placeResult, $placesRetrieved);
     }
 
     public function testThatSearchByRadiusCallPlaceRequest()

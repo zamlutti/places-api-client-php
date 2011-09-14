@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<places xmlns:atom="http://www.w3.org/2005/Atom">
+    <place>
+        <id>C4021742224A2C4A2B</id>
+        <name>Super Star Decora&#xE7;&#xF5;es</name>
+        <address>R. FRANCISCO MURACA, 175</address>
+        <city>Aruj&#xE1;</city>
+        <state>SP</state>
+        <country>BR</country>
+        <zip-code>07400000</zip-code>
+        <phone>1146532206</phone>
+        <category>FESTAS E EVENTOS</category>
+        <sub-category>Festas E Eventos</sub-category>
+        <latitude>-23.38675</latitude>
+        <longitude>-46.31628</longitude>
+        <distance>18.783950600412179</distance>
+    </place>
+    <place>
+        <id>C4068762224A1S4A19</id>
+        <name>Casa de Tintas Aruj&#xE1;</name>
+        <address>AV. DOS EXPEDICION&#xC1;RIOS, 2327</address>
+        <city>Aruj&#xE1;</city>
+        <state>SP</state>
+        <country>BR</country>
+        <zip-code>07400000</zip-code>
+        <phone>1146515442</phone>
+        <category>LOJAS DIVERSAS</category>
+        <sub-category>Lojas Diversas (Geral)</sub-category>
+        <latitude>-23.3882</latitude>
+        <longitude>-46.31398</longitude>
+        <distance>18.827295967342138</distance>
+    </place>
+    <start-index>60</start-index>
+    <total-found>916</total-found>
+    <atom:link type="application/xml" rel="next" href="/places/byradius/?radius=1000&amp;latitude=-23.235&amp;longitude=-46.2352&amp;term=banco&amp;category=44&amp;start=90"/>
+    <atom:link type="application/xml" rel="previous" href="/places/byradius/?radius=1000&amp;latitude=-23.235&amp;longitude=-46.2352&amp;term=banco&amp;category=44&amp;start=30"/>
+</places>

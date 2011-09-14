@@ -2,9 +2,9 @@
 
 class PlaceResult
 {
-    public $Place;
-    public $startIndex;
-    public $totalFound;
-    public $previous;
-    public $next;
+    public $places = array();
+    public $startIndex = "";
+    public $totalFound = "";
+    public $previous = "";
+    public $next = "";
 }

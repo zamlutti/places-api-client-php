@@ -1,33 +1,16 @@
 <?php
-require_once 'XML/Unserializer.php';
 
 class PlaceSearcher
 {
     private $client;
     private $queryBuilder;
-    private $unserializer;
-    private $options = array(
-        'complexType' => 'object',
-        'tagMap' => array(
-            'places' => 'PlaceResult',
-            'place' => 'Place',
-            'start-index' => 'startIndex',
-            'total-found' => 'totalFound',
-            'zip-code' => 'zipCode',
-            'sub-category' => 'subCategory',
-            'distance' => 'distanceInKilometers',
-        ),
-        'keyAttribute' => array(
-            'atom:link' => 'rel'
-        ),
-        'returnResult' => true
-    );
+    private $placesConverter;
 
-    public function __construct(HttpClientWrapper $client, UriBuilder $queryBuilder)
+    public function __construct(HttpClientWrapper $client, UriBuilder $queryBuilder, PlacesConverter $placesConverter)
     {
         $this->client = $client;
         $this->queryBuilder = $queryBuilder;
-        $this->unserializer = &new XML_Unserializer($this->options);
+        $this->placesConverter = $placesConverter;
     }
 
     public function byRadius($radius, $latitude, $longitude, $term = null,
@@ -52,14 +35,13 @@ class PlaceSearcher
         }
 
         $response = $this->client->request($this->queryBuilder->build());
-
-        return $this->unserializer->unserialize($response);
+        return $this->placesConverter->toPlaceResult($response);
     }
 
     public function byUri($uri)
     {
         $response = $this->client->request($uri);
-        return $this->unserializer->unserialize($response);
+        return $this->placesConverter->toPlaceResult($response);
     }
 }
 
