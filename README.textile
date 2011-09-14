@@ -4,7 +4,7 @@ h2. Como usar
 
 h3. Configuração da url de acesso ao webservice e dados de autenticação
 
-bc..        $this->host = "http://url-do-webservice";
+bc..         $this->host = "http://url-do-webservice";
         $this->login = "<login da sua licença>";
         $this->key = "<chave da sua licença>";
         $this->client = new HttpClientWrapper($this->host, new AuthenticationBuilder($this->login, $this->key));
@@ -13,31 +13,26 @@ h3. Pesquisa de locais
 
 h4. Por Raio
 
-bc..        $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
+bc..         $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
         $places = $placeSearcher->byRadius(100, -23.59, -46.68);
 
 h4. Filtrada por termo e/ou categoria
 
-bc..        $term = "pizza";
+bc..         $term = "pizza";
         $categoryId = 66;
-
         $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
         $places = $placeSearcher->byRadius(100, -23.59, -46.68, $term, $categoryId);
 
-
 h4. Paginação
 
-bc..        $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
-
+bc..         $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
         $places = $placeSearcher->byRadius(100, -23.59, -46.68);
-
         $nextPage = $placeSearcher->byUri($places->next);
         $previousPage = $placeSearcher->byUri($places->previous);
-
         
 h3. Pesquisa de categorias
 
 h4. Todas as categories (disponíveis para o seu pacote)
 
-bc..        $categoriesSearcher = new CategorySearcher($this->client);
+bc..         $categoriesSearcher = new CategorySearcher($this->client);
         $categories = $categoriesSearcher->getAll();
