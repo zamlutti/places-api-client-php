@@ -13,8 +13,11 @@ h3. Pesquisa de locais
 
 h4. Por Raio
 
-bc..         $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
-        $places = $placeSearcher->byRadius(100, -23.59, -46.68);
+bc..         $radius = 100;
+        $latitude = -23.59;
+        $longitude = -46.68;
+        $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
+        $places = $placeSearcher->byRadius($radius, $latitude, $longitude);
 
 h4. Filtrada por termo e/ou categoria
 
