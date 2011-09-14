@@ -4,10 +4,10 @@ h2. Como usar
 
 h3. Configuração da url de acesso ao webservice e dados de autenticação
 
-bc..         $this->host = "http://url-do-webservice";
-        $this->login = "<login da sua licença>";
-        $this->key = "<chave da sua licença>";
-        $this->client = new HttpClientWrapper($this->host, new AuthenticationBuilder($this->login, $this->key));
+bc..         $host = "http://url-do-webservice";
+        $login = "<login da sua licença>";
+        $key = "<chave da sua licença>";
+        $this->client = new HttpClientWrapper($host, new AuthenticationBuilder($login, $key));
 
 h3. Pesquisa de locais
 
