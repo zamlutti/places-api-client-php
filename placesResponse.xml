@@ -32,6 +32,8 @@
     </place>
     <start-index>60</start-index>
     <total-found>916</total-found>
-    <atom:link type="application/xml" rel="next" href="/places/byradius/?radius=1000&amp;latitude=-23.235&amp;longitude=-46.2352&amp;term=banco&amp;category=44&amp;start=90"/>
-    <atom:link type="application/xml" rel="previous" href="/places/byradius/?radius=1000&amp;latitude=-23.235&amp;longitude=-46.2352&amp;term=banco&amp;category=44&amp;start=30"/>
+    <atom:link type="application/xml" rel="next"
+               href="/places/byradius/?radius=1000&amp;latitude=-23.235&amp;longitude=-46.2352&amp;term=banco&amp;category=44&amp;start=90"/>
+    <atom:link type="application/xml" rel="previous"
+               href="/places/byradius/?radius=1000&amp;latitude=-23.235&amp;longitude=-46.2352&amp;term=banco&amp;category=44&amp;start=30"/>
 </places>

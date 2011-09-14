@@ -13,7 +13,8 @@ class PlacesConverter
         'returnResult' => true
     );
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->placeResult = new PlaceResult();
         $this->unserializer = &new XML_Unserializer($this->options);
     }
@@ -25,9 +26,15 @@ class PlacesConverter
         $this->placeResult->places = $placesSerialized["place"];
         $this->placeResult->totalFound = $placesSerialized["total-found"];
         $this->placeResult->startIndex = $placesSerialized["start-index"];
-        $this->placeResult->previous = $placesSerialized["previous"]["href"];
-        $this->placeResult->next = $placesSerialized["next"]["href"];
-        
+
+        if (isset($placesSerialized["previous"])) {
+            $this->placeResult->previous = $placesSerialized["previous"]["href"];
+        }
+
+        if (isset($placesSerialized["next"])) {
+            $this->placeResult->next = $placesSerialized["next"]["href"];
+        }
+
         return $this->placeResult;
     }
 }

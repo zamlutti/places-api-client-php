@@ -3,13 +3,13 @@
 class PlaceSearcher
 {
     private $client;
-    private $queryBuilder;
+    private $uriBuilder;
     private $placesConverter;
 
-    public function __construct(HttpClientWrapper $client, UriBuilder $queryBuilder, PlacesConverter $placesConverter)
+    public function __construct(HttpClientWrapper $client, UriBuilder $uriBuilder, PlacesConverter $placesConverter)
     {
         $this->client = $client;
-        $this->queryBuilder = $queryBuilder;
+        $this->uriBuilder = $uriBuilder;
         $this->placesConverter = $placesConverter;
     }
 
@@ -17,24 +17,24 @@ class PlaceSearcher
         $categoryId = null, $startIndex = null)
     {
 
-        $this->queryBuilder->withBase('/places/byradius');
-        $this->queryBuilder->withParameter('radius', $radius);
-        $this->queryBuilder->withParameter('latitude', $latitude);
-        $this->queryBuilder->withParameter('longitude', $longitude);
+        $this->uriBuilder->withBase('/places/byradius');
+        $this->uriBuilder->withParameter('radius', $radius);
+        $this->uriBuilder->withParameter('latitude', $latitude);
+        $this->uriBuilder->withParameter('longitude', $longitude);
 
         if (!empty($term)) {
-            $this->queryBuilder->withParameter('term', $term);
+            $this->uriBuilder->withParameter('term', $term);
         }
 
         if (!is_null($categoryId)) {
-            $this->queryBuilder->withParameter('category', $categoryId);
+            $this->uriBuilder->withParameter('category', $categoryId);
         }
 
         if (!empty($startIndex)) {
-            $this->queryBuilder->withParameter('start', $startIndex);
+            $this->uriBuilder->withParameter('start', $startIndex);
         }
 
-        $response = $this->client->request($this->queryBuilder->build());
+        $response = $this->client->request($this->uriBuilder->build());
         return $this->placesConverter->toPlaceResult($response);
     }
 
