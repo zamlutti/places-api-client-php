@@ -1,4 +1,5 @@
 h1. Client PHP (5.2) para acesso aos Webservices de locais
+
 h2. Como usar
 
 h3. Configuração da url de acesso ao webservice e dados de autenticação
@@ -11,10 +12,12 @@ bc..        $this->host = "http://url-do-webservice";
 h3. Pesquisa de locais
 
 h4. Por Raio
+
 bc..        $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
         $places = $placeSearcher->byRadius(100, -23.59, -46.68);
 
 h4. Filtrada por termo e/ou categoria
+
 bc..        $term = "pizza";
         $categoryId = 66;
 
@@ -23,6 +26,7 @@ bc..        $term = "pizza";
 
 
 h4. Paginação
+
 bc..        $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
 
         $places = $placeSearcher->byRadius(100, -23.59, -46.68);
@@ -34,5 +38,6 @@ bc..        $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), 
 h3. Pesquisa de categorias
 
 h4. Todas as categories (disponíveis para o seu pacote)
+
 bc..        $categoriesSearcher = new CategorySearcher($this->client);
         $categories = $categoriesSearcher->getAll();
