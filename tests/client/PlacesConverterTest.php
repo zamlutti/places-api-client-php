@@ -4,12 +4,10 @@ class PlacesConverterTest extends PHPUnit_Framework_TestCase
 {
     private $xml;
     private $placesConverter;
-    private $placesConverted;
 
     public function setUp()
     {
         $this->xml = file_get_contents("../placesResponse.xml");
-        $this->placesConverted = new PlaceResult();
         $this->placesConverter = new PlacesConverter();
     }
 
