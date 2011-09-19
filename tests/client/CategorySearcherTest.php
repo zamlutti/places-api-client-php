@@ -5,7 +5,7 @@ class CategorySearcherTest extends PHPUnit_Framework_TestCase
     private $clientMocked;
     private $categoriesSearcher;
     private $categoriesRetrieved;
-    private $categories = '<categories>
+    private $categories = "<categories>
                                 <category>
                                     <id>1</id>
                                     <name>first-category</name>
@@ -14,7 +14,7 @@ class CategorySearcherTest extends PHPUnit_Framework_TestCase
                                     <id>2</id>
                                     <name>second-category</name>
                                 </category>
-                            </categories>';
+                            </categories>";
 
     public function setUp()
     {

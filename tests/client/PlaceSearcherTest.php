@@ -15,14 +15,6 @@ class PlaceSearcherTest extends PHPUnit_Framework_TestCase
     private $queryBuilt = 'query-built';
     private $placeResult;
     private $places = "places-retrieved";
-    private $unserializer;
-    private $options = array(
-        'keyAttribute' => array(
-            'atom:link' => 'rel'
-        ),
-        'returnResult' => true
-    );
-
 
     public function setUp()
     {
