@@ -1,0 +1,3 @@
+[submodule "phpunit"]
+	path = phpunit
+	url = git://github.com/sebastianbergmann/phpunit

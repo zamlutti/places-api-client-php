@@ -3,7 +3,7 @@
 <project name="webservices-places-client-php" default="build" basedir=".">
     <property name="source" value="src"/>
     <target name="phpunit" description="Run unit tests using PHPUnit">
-        <exec executable="C:\Program Files\wamp\bin\php\php5.3.4\phpunit" failonerror="true" dir="tests"/>
+        <exec executable="phpunit/phpunit.php" failonerror="true" dir="tests"/>
     </target>
 
     <target name="build" depends="phpunit">
