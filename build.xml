@@ -3,7 +3,7 @@
 <project name="webservices-places-client-php" default="build" basedir=".">
  <property name="source" value="src"/>
 
- <target name="phpunit" description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
+ <target name="phpunit" description="Run unit tests using PHPUnit">
   <exec executable="phpunit" failonerror="true" dir="tests"/>
  </target>
 
