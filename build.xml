@@ -21,7 +21,9 @@
 
     <target name="phpunit"
             description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
-        <exec command="phpunit" dir="${basedir}/tests/client/"/>
+        <exec dir="${basedir}/tests/" executable="phpunit" failonerror="true" output="${basedir}/build/logs/phpunit.txt" >
+            <arg line="client"/>
+        </exec>
     </target>
 
     <target name="parallelTasks"
@@ -37,10 +39,10 @@
             <antcall target="phploc"/>
         </parallel>
     </target>
-    
+
     <target name="pdepend"
             description="Generate jdepend.xml and software metrics charts using PHP_Depend">
-        <exec command="pdepend">
+        <exec executable="pdepend">
             <arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml"/>
             <arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg"/>
             <arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg"/>
@@ -109,5 +111,5 @@
         </exec>
     </target>
 
-    <target name="build" depends="clean,parallelTasks,phpunit,phpcb"/>
+    <target name="build" depends="clean,phpunit,phpcb"/>
 </project>
