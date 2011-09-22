@@ -1,26 +1,19 @@
-<?xml version="1.0" encoding="utf-8" ?> 
+<?xml version="1.0" encoding="utf-8" ?>
 <project name="webservices-places-client-php" default="build" basedir=".">
-<property name="source" value="${basedir}/src" />
-<target name="clean">
-    <!-- Clean up -->
-    <delete dir="${basedir}/build" />
+    <property name="source" value="${basedir}/src"/>
 
-    <!-- Create build directories -->
-    <mkdir dir="${basedir}/build/api" />
-    <mkdir dir="${basedir}/build/code-browser" />
-    <mkdir dir="${basedir}/build/coverage" />
-    <mkdir dir="${basedir}/build/logs" />
-    <mkdir dir="${basedir}/build/pdepend" />
-</target>
+    <target name="clean">
+        <delete dir="${basedir}/package"/>
+        <mkdir dir="${basedir}/package"/>
+    </target>
 
-<!-- Run unit tests and generate junit.xml and clover.xml -->
-<target name="phpunit">
-    <exec dir="${basedir}/tests" executable="cmd">
-        <arg line="/c phpunit 'client'" />
-    </exec>
-</target>
+    <target name="phpunit">
+        <exec dir="${basedir}/tests" executable="cmd">
+            <arg line="/c phpunit 'client'"/>
+        </exec>
+    </target>
 
-<target name="build" depends="clean,phpunit">
-    <zip basedir="${source}" destfile="places-api-client-php.zip" />
-</target>
+    <target name="build" depends="clean,phpunit">
+        <zip basedir="${source}" destfile="package\places-api-client-php.zip"/>
+    </target>
 </project>
