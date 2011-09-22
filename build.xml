@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?> 
 <project name="webservices-places-client-php" default="build" basedir=".">
-
+<property name="source" value="${basedir}/src" />
 <target name="clean">
     <!-- Clean up -->
     <delete dir="${basedir}/build" />
@@ -20,101 +20,7 @@
     </exec>
 </target>
 
-<!-- Run the pdepend, phpmd, phpcpd, phpcs, phpdoc and phploc tasks in parallel 
-    using a maximum of 2 threads. -->
-<target name="parallelTasks">
-    <parallel threadCount="1">
-        <sequential>
-            <antcall target="pdepend" />
-            <antcall target="phpmd" />
-        </sequential>
-        <antcall target="phpcpd" />
-        <antcall target="phpcs" />
-        <antcall target="phpdoc" />
-        <antcall target="phploc" />
-    </parallel>
+<target name="build" depends="clean,parallelTasks,phpunit,phpcb" >
+    <zip basedir="${source}" destfile="places-api-client-php.zip" />
 </target>
-
-<!-- Generate jdepend.xml and software metrics charts -->
-<target name="pdepend">
-    <exec executable="cmd">
-        <arg line="/c pdepend
-            --jdepend-xml='${basedir}/build/logs/jdepend.xml'
-            --jdepend-chart='${basedir}/build/pdepend/dependencies.svg'
-            --summary-xml='${basedir}/build/logs/jdepend-summary.xml'
-            --overview-pyramid='${basedir}/build/pdepend/overview-pyramid.svg'
-            --ignore='${basedir}\lib\Zend\*'
-            application,lib
-            " />
-    </exec>
-</target>
-
-<!-- Generate pmd.xml -->
-<target name="phpmd">
-    <exec executable="cmd">
-        <arg line="/c phpmd application,lib
-          xml
-          codesize,design,naming,unusedcode
-          --reportfile '${basedir}/build/logs/pmd.xml'
-          --exclude '${basedir}\lib\Zend\*'
-          " />
-    </exec>
-</target>
-
-<!-- Generate pmd-cpd.xml -->
-<target name="phpcpd">
-    <exec executable="cmd">
-        <arg line="/c phpcpd
-            --log-pmd '${basedir}/build/logs/pmd-cpd.xml'
-            --exclude '${basedir}/lib/Zend'
-            application lib" />
-    </exec>
-</target>
-
-<!-- Generate phploc.csv -->
-<target name="phploc">
-    <exec executable="cmd">
-        <arg line="/c phploc
-            --log-csv '${basedir}/build/logs/phploc.csv'
-            --exclude '${basedir}/lib/Zend'
-            application lib" />
-    </exec>
-</target>
-
-<!-- Generate checkstyle.xml -->
-<target name="phpcs">
-    <exec executable="cmd">
-        <arg line="/c phpcs
-            --report=checkstyle
-            --report-file='${basedir}/build/logs/checkstyle.xml'
-            --standard='${basedir}/docs/coding-standard/ruleset.xml'
-            --ignore=*\\lib\\Zend\\*
-            -p
-            application lib" />
-    </exec>
-</target>
-
-<!-- Generate API documentation -->
-<target name="phpdoc">
-    <exec executable="cmd">
-        <arg line="/c phpdoc
-            --directory application lib
-            --target    '${basedir}/build/api'
-            --ignore    '${basedir}/lib/Zend/*'
-           " />
-    </exec>
-</target>
-
-<target name="phpcb">
-    <exec executable="cmd">
-        <arg line="/c phpcb
-          --log    '${basedir}/build/logs'
-          --output '${basedir}/build/code-browser'
-          --ignore '${basedir}/lib/Zend'
-          " />
-
-    </exec>
-</target>
-
-<target name="build" depends="clean,parallelTasks,phpunit,phpcb" />
 </project>
