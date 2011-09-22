@@ -20,7 +20,7 @@
     </exec>
 </target>
 
-<target name="build" depends="clean,parallelTasks,phpunit,phpcb" >
+<target name="build" depends="clean,phpunit">
     <zip basedir="${source}" destfile="places-api-client-php.zip" />
 </target>
 </project>
