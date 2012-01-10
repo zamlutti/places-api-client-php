@@ -41,7 +41,7 @@ bc..         $radius = 100;
         
 h3. Pesquisa de categorias
 
-h4. Todas as categories (disponíveis para o seu pacote)
+h4. Todas as categorias (disponíveis para o seu pacote)
 
 bc..         $categoriesSearcher = new CategorySearcher($this->client);
         $categories = $categoriesSearcher->getAll();
