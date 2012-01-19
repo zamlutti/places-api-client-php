@@ -19,7 +19,7 @@ bc..         $radius = 100;
         $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
         $places = $placeSearcher->byRadius($radius, $latitude, $longitude);
 
-h4. Filtrada por termo e/ou categoria
+h5. Filtrada por termo e/ou categoria
 
 bc..         $radius = 100;
         $latitude = -23.59;
@@ -28,6 +28,33 @@ bc..         $radius = 100;
         $categoryId = 66;
         $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
         $places = $placeSearcher->byRadius($radius, $latitude, $longitude, $term, $categoryId);
+
+h4. Por Termo
+
+bc..         $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
+        $places = $placeSearcher->byTerm("pizza");
+
+h5. Filtrada por cidade/estado
+
+bc..         $term = "pizza";
+        $city = "São Paulo";
+        $state = "SP";
+        $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
+        $places = $placeSearcher->byTerm($term, $state, $city);
+
+
+h4. Por Categoria
+
+bc..         $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
+        $places = $placeSearcher->byCategory(66);
+
+h5. Filtrada por cidade/estado
+
+bc..         $categoryId = 66;
+        $city = "São Paulo";
+        $state = "SP";
+        $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
+        $places = $placeSearcher->byCategory($category, $state, $city);
 
 h4. Paginação
 
