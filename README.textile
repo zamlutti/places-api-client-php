@@ -42,7 +42,6 @@ bc..         $term = "pizza";
         $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
         $places = $placeSearcher->byTerm($term, $state, $city);
 
-
 h4. Por Categoria
 
 bc..         $placeSearcher = new PlaceSearcher($this->client, new UriBuilder(), new PlacesConverter());
