@@ -57,6 +57,9 @@ bc..         $categoryId = 66;
 
 h4. Paginação
 
+Cada request traz 100 resultados. Para buscar os próximos 100 ou os 100 anteriores, você pode usar o método "byUri":
+
+
 bc..         $radius = 100;
         $latitude = -23.59;
         $longitude = -46.68;
